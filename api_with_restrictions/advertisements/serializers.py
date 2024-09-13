@@ -44,7 +44,7 @@ class AdvertisementSerializer(serializers.ModelSerializer):
         """Метод для валидации. Вызывается при создании и обновлении."""
 
         user_id = self.context["request"].user.id
-        max_open_adv_number_for_user = 10
+        max_open_adv_number_for_user = 100
         adv_status = 'OPEN'
         current_open_adv_number_for_user = Advertisement.objects.filter(creator_id=user_id, status=adv_status).count()
 

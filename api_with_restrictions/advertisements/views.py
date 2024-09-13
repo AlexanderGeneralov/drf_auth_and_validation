@@ -12,12 +12,15 @@ class AdvertisementViewSet(ModelViewSet):
 
     queryset = Advertisement.objects.all()
     serializer_class = AdvertisementSerializer
-    permission_classes = [IsCreatorOrReadOnly]
     filterset_class = AdvertisementFilter
     filter_backends = (rest_framework.DjangoFilterBackend,)
 
     def get_permissions(self):
         """Получение прав для действий."""
-        if self.action in ["create", "update", "partial_update"]:
+        if self.action in ['list', 'retrieve']:
+            return []
+        if self.action in ["create"]:
             return [IsAuthenticated()]
+        if self.action in ["update", "partial_update", "destroy"]:
+            return [IsAuthenticated(), IsCreatorOrReadOnly()]
         return []
